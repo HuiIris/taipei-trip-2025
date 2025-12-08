@@ -15,8 +15,8 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
-        /* 全域設定 - 背景 Blue-100 */
-        body { background-color: #dbeafe; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        /* 全域設定 */
+        body { background-color: #1f2937; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
         
         /* 手機外框陰影 */
         .mobile-frame { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
@@ -42,10 +42,17 @@
 <div id="app" class="min-h-screen flex items-center justify-center p-0 md:p-6">
     
     <!-- App 容器 -->
-    <div class="bg-blue-100 w-full max-w-[400px] h-[100vh] md:h-[850px] md:rounded-[40px] overflow-hidden relative flex flex-col mobile-frame border-4 border-white/20">
+    <div class="bg-gray-50 w-full max-w-[400px] h-[100vh] md:h-[850px] md:rounded-[40px] overflow-hidden relative flex flex-col mobile-frame border-4 border-gray-800">
 
-        <!-- 1. 動態頁首 Header -->
-        <div class="relative h-64 bg-gray-900 shrink-0 overflow-hidden group">
+        <!-- 全域背景圖 (Anson Kong) -->
+        <div class="absolute inset-0 z-0 bg-white">
+            <img src="https://kpopmembersbio.com/wp-content/uploads/2021/05/Anson-Kong.jpg" 
+                 class="w-full h-full object-cover opacity-35" 
+                 style="object-position: center 20%;">
+        </div>
+
+        <!-- 1. 動態頁首 Header (層級提高 z-20) -->
+        <div class="relative h-64 bg-gray-900 shrink-0 overflow-hidden group z-20 shadow-xl">
             <!-- 背景圖切換區 -->
             <transition-group name="img-fade">
                 <div :key="currentDayData.image" class="img-wrapper">
@@ -89,44 +96,44 @@
             </div>
         </div>
 
-        <!-- 2. 內容滾動區 -->
-        <div class="flex-1 overflow-y-auto no-scrollbar pb-36 relative bg-blue-100 rounded-t-3xl -mt-4 z-30">
+        <!-- 2. 內容滾動區 (透明背景以顯示底圖) -->
+        <div class="flex-1 overflow-y-auto no-scrollbar pb-24 relative z-10 rounded-t-3xl -mt-4 bg-transparent">
             
-            <!-- Tab 0: 準備清單 Checklist (Updated!) -->
+            <!-- Tab 0: 準備清單 Checklist -->
             <div v-if="activeTab === 'checklist'" class="p-5 space-y-5">
                 
-                <!-- 進度條 -->
-                <div class="bg-white p-4 rounded-2xl shadow-sm border border-blue-200">
+                <!-- 進度條 (改為天空藍 bg-blue-100) -->
+                <div class="bg-blue-100 p-4 rounded-2xl shadow-sm border border-blue-200">
                     <div class="flex justify-between items-end mb-2">
                         <h2 class="text-lg font-bold text-gray-800">行李清單</h2>
                         <span class="text-xs font-bold text-blue-600">{{ checklistProgress }}% 完成</span>
                     </div>
-                    <div class="w-full bg-gray-100 rounded-full h-2.5">
+                    <div class="w-full bg-white rounded-full h-2.5">
                         <div class="bg-blue-600 h-2.5 rounded-full transition-all duration-500" :style="{ width: checklistProgress + '%' }"></div>
                     </div>
                 </div>
 
-                <!-- 清單列表 -->
+                <!-- 清單列表 (改為天空藍 bg-blue-100) -->
                 <div class="space-y-3">
                     <div v-for="item in checklist" :key="item.id" 
                          @click="toggleCheck(item.id)"
-                         class="bg-white p-4 rounded-xl border border-blue-100 shadow-sm flex items-center gap-4 cursor-pointer transition-all active:scale-95 group hover:bg-blue-50">
+                         class="bg-blue-100 p-4 rounded-xl border border-blue-200 shadow-sm flex items-center gap-4 cursor-pointer transition-all active:scale-95 group hover:bg-blue-200/50">
                         
                         <!-- Icon -->
-                        <div :class="item.checked ? 'bg-green-100 text-green-500' : 'bg-blue-100 text-blue-500'" 
-                             class="w-10 h-10 rounded-full flex items-center justify-center shrink-0 transition-colors">
+                        <div :class="item.checked ? 'bg-green-100 text-green-600' : 'bg-white text-blue-500'" 
+                             class="w-10 h-10 rounded-full flex items-center justify-center shrink-0 transition-colors shadow-sm">
                             <i :class="['fas', item.icon]"></i>
                         </div>
 
                         <!-- Text -->
                         <div class="flex-1">
                             <h3 :class="item.checked ? 'text-gray-400 line-through' : 'text-gray-800'" class="font-bold text-sm transition-all">{{ item.text }}</h3>
-                            <p class="text-[10px] text-gray-400">{{ item.desc }}</p>
+                            <p class="text-[10px] text-gray-500">{{ item.desc }}</p>
                         </div>
 
                         <!-- Checkbox UI -->
                         <div class="w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all"
-                             :class="item.checked ? 'border-green-500 bg-green-500' : 'border-gray-200 bg-white'">
+                             :class="item.checked ? 'border-green-500 bg-green-500' : 'border-blue-300 bg-white'">
                             <i v-if="item.checked" class="fas fa-check text-white text-xs"></i>
                         </div>
                     </div>
@@ -134,7 +141,7 @@
                 
                 <!-- 重置按鈕 -->
                 <div class="text-center pt-4 pb-10">
-                    <button @click="resetChecklist" class="text-xs text-gray-400 underline hover:text-red-400">重置所有清單</button>
+                    <button @click="resetChecklist" class="text-xs text-gray-500 underline hover:text-red-500 font-bold bg-white/50 px-3 py-1 rounded-full">重置所有清單</button>
                 </div>
             </div>
 
@@ -144,68 +151,68 @@
                 <div class="flex gap-3 overflow-x-auto pb-2 no-scrollbar snap-x">
                     <button v-for="d in 5" :key="d" 
                         @click="currentDay = d"
-                        :class="currentDay === d ? 'bg-blue-600 text-white shadow-lg ring-2 ring-offset-2 ring-blue-600 scale-105' : 'bg-white text-gray-400 border border-blue-200 hover:border-blue-300'"
+                        :class="currentDay === d ? 'bg-blue-600 text-white shadow-lg ring-2 ring-offset-2 ring-blue-600 scale-105' : 'bg-blue-100 text-gray-500 border border-blue-200 hover:border-blue-400'"
                         class="flex-shrink-0 w-14 h-16 rounded-2xl flex flex-col items-center justify-center transition-all duration-300 snap-center">
                         <span class="text-[10px] font-bold uppercase tracking-widest mb-1 opacity-70">Day</span>
                         <span class="text-xl font-bold">{{ d }}</span>
                     </button>
                 </div>
 
-                <!-- 主題編輯區 -->
-                <div class="bg-white p-4 rounded-2xl border border-blue-200 flex items-center gap-4 shadow-sm">
-                    <div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-blue-600 shrink-0">
+                <!-- 主題編輯區 (改為天空藍 bg-blue-100) -->
+                <div class="bg-blue-100 p-4 rounded-2xl border border-blue-200 flex items-center gap-4 shadow-sm">
+                    <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-blue-600 shrink-0 shadow-sm">
                         <i class="fas fa-pen-nib text-sm"></i>
                     </div>
                     <div class="flex-1 min-w-0">
-                        <label class="text-[10px] font-bold text-blue-400 uppercase block mb-1">今日主題</label>
+                        <label class="text-[10px] font-bold text-blue-500 uppercase block mb-1">今日主題</label>
                         <input type="text" 
                                v-model="daysConfig[currentDay].theme"
-                               class="w-full bg-transparent border-b-2 border-blue-100 focus:border-blue-500 text-gray-800 font-bold text-sm pb-1 transition-colors"
+                               class="w-full bg-transparent border-b-2 border-blue-300 focus:border-blue-600 text-gray-800 font-bold text-sm pb-1 transition-colors placeholder-gray-400"
                                placeholder="點擊設定...">
                     </div>
                 </div>
 
                 <!-- 行程列表控制 -->
                 <div class="flex justify-between items-center pt-2">
-                    <h2 class="text-lg font-bold text-gray-900">當日行程</h2>
-                    <button @click="addNewItem" class="flex items-center gap-1 text-sm font-bold text-blue-700 bg-white border border-blue-200 px-3 py-1.5 rounded-full hover:bg-blue-50 transition shadow-sm">
+                    <h2 class="text-lg font-bold text-gray-900 bg-white/50 px-2 rounded-lg backdrop-blur-sm">當日行程</h2>
+                    <button @click="addNewItem" class="flex items-center gap-1 text-sm font-bold text-blue-700 bg-blue-100 border border-blue-300 px-3 py-1.5 rounded-full hover:bg-blue-200 transition shadow-sm">
                         <i class="fas fa-plus"></i> 新增
                     </button>
                 </div>
 
                 <!-- 空狀態 -->
-                <div v-if="filteredItinerary.length === 0" class="py-12 text-center border-2 border-dashed border-blue-300 rounded-2xl bg-white/40">
+                <div v-if="filteredItinerary.length === 0" class="py-12 text-center border-2 border-dashed border-blue-300 rounded-2xl bg-blue-100/80">
                     <div class="text-blue-300 text-4xl mb-3"><i class="fas fa-calendar-plus"></i></div>
                     <p class="text-gray-500 text-sm">還沒有行程<br>點擊右上方新增按鈕</p>
                 </div>
 
-                <!-- 行程卡片 -->
-                <div v-for="item in filteredItinerary" :key="item.id" class="bg-white p-4 rounded-2xl shadow-sm border border-blue-100 flex gap-4 group transition-all duration-300">
+                <!-- 行程卡片 (改為天空藍 bg-blue-100) -->
+                <div v-for="item in filteredItinerary" :key="item.id" class="bg-blue-100 p-4 rounded-2xl shadow-sm border border-blue-200 flex gap-4 group transition-all duration-300">
                     <!-- 時間軸 -->
                     <div class="flex flex-col items-center pt-1 w-14 shrink-0">
                         <span class="text-gray-900 font-black text-sm font-mono">{{ item.time }}</span>
-                        <div class="h-full w-0.5 bg-blue-50 mt-2 rounded-full group-hover:bg-blue-200 transition-colors"></div>
+                        <div class="h-full w-0.5 bg-blue-200 mt-2 rounded-full group-hover:bg-blue-400 transition-colors"></div>
                     </div>
                     <!-- 內容 -->
                     <div class="flex-1 min-w-0">
                         <!-- 編輯模式 -->
-                        <div v-if="editingId === item.id" class="space-y-3 bg-blue-50/50 p-3 rounded-xl border border-blue-200">
+                        <div v-if="editingId === item.id" class="space-y-3 bg-white/50 p-3 rounded-xl border border-blue-300">
                             <div class="flex gap-2">
-                                <input v-model="editForm.time" type="time" class="bg-white border border-blue-100 rounded-lg px-2 py-1 text-xs shadow-sm">
-                                <input v-model="editForm.title" type="text" class="flex-1 bg-white border border-blue-100 rounded-lg px-3 py-1 text-sm shadow-sm" placeholder="輸入行程...">
+                                <input v-model="editForm.time" type="time" class="bg-white border border-blue-300 rounded-lg px-2 py-1 text-xs shadow-sm">
+                                <input v-model="editForm.title" type="text" class="flex-1 bg-white border border-blue-300 rounded-lg px-3 py-1 text-sm shadow-sm" placeholder="輸入行程...">
                             </div>
                             <!-- 上傳照片區 -->
                             <div class="flex items-center justify-between">
-                                <label class="flex items-center gap-2 text-xs text-blue-600 bg-white px-3 py-1.5 rounded-lg border border-blue-100 cursor-pointer active:scale-95 transition">
+                                <label class="flex items-center gap-2 text-xs text-blue-600 bg-white px-3 py-1.5 rounded-lg border border-blue-200 cursor-pointer active:scale-95 transition shadow-sm">
                                     <i class="fas fa-camera"></i> {{ editForm.image ? '更換' : '照片' }}
                                     <input type="file" accept="image/*" class="hidden-input" @change="(e) => handleImageUpload(e, 'editForm')">
                                 </label>
-                                <div v-if="editForm.image" class="text-xs text-gray-400 flex items-center gap-1">
+                                <div v-if="editForm.image" class="text-xs text-gray-500 flex items-center gap-1">
                                     <i class="fas fa-check-circle text-green-500"></i> 已選取
                                     <button @click="editForm.image = ''" class="text-red-400 ml-1"><i class="fas fa-times"></i></button>
                                 </div>
                             </div>
-                            <div class="flex gap-2 justify-end mt-2 border-t border-blue-100 pt-2">
+                            <div class="flex gap-2 justify-end mt-2 border-t border-blue-200 pt-2">
                                 <button @click="cancelEdit" class="text-xs text-gray-500 px-3 py-1">取消</button>
                                 <button @click="saveEdit(item.id)" class="text-xs bg-blue-600 text-white px-4 py-1.5 rounded-lg shadow font-bold">儲存</button>
                             </div>
@@ -215,15 +222,15 @@
                         <div v-else>
                             <h3 class="font-bold text-gray-800 text-base mb-2 truncate">{{ item.title }}</h3>
                             <!-- 顯示照片 -->
-                            <div v-if="item.image" class="mb-3 rounded-xl overflow-hidden h-32 w-full relative shadow-inner border border-gray-100">
+                            <div v-if="item.image" class="mb-3 rounded-xl overflow-hidden h-32 w-full relative shadow-inner border border-blue-200">
                                 <img :src="item.image" class="w-full h-full object-cover">
                             </div>
                             <div class="flex items-center justify-between">
-                                <button @click="openMap(item.title)" class="text-[11px] bg-blue-50 hover:bg-blue-100 text-blue-600 px-3 py-1.5 rounded-lg font-bold transition-colors flex items-center gap-1.5">
+                                <button @click="openMap(item.title)" class="text-[11px] bg-white hover:bg-blue-200 text-blue-600 px-3 py-1.5 rounded-lg font-bold transition-colors flex items-center gap-1.5 shadow-sm border border-blue-100">
                                     <i class="fas fa-location-arrow text-[10px]"></i> 導航
                                 </button>
                                 <div class="flex gap-1">
-                                    <button @click="startEdit(item)" class="w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:bg-blue-50 hover:text-blue-600 transition">
+                                    <button @click="startEdit(item)" class="w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:bg-white hover:text-blue-600 transition">
                                         <i class="fas fa-pen text-xs"></i>
                                     </button>
                                     <button @click="deleteItem(item.id)" class="w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:bg-red-50 hover:text-red-500 transition">
@@ -256,33 +263,35 @@
                     <div class="absolute bottom-0 left-0 w-32 h-32 bg-cyan-400/20 rounded-full blur-2xl"></div>
                 </div>
 
-                <div class="bg-white p-3 rounded-2xl shadow-sm border border-blue-200">
+                <!-- 輸入區 (改為天空藍 bg-blue-100) -->
+                <div class="bg-blue-100 p-3 rounded-2xl shadow-sm border border-blue-200">
                     <div class="flex gap-2 mb-2">
-                        <input v-model="newExpense.item" type="text" placeholder="項目 (如: 珍珠奶茶)" class="flex-[2] bg-blue-50 rounded-xl px-4 py-3 text-sm font-medium focus:bg-white focus:ring-2 focus:ring-blue-200 transition-all">
-                        <input v-model="newExpense.amount" type="number" placeholder="台幣" class="flex-1 min-w-[80px] bg-blue-50 rounded-xl px-3 py-3 text-sm font-medium focus:bg-white focus:ring-2 focus:ring-blue-200 transition-all text-center">
+                        <input v-model="newExpense.item" type="text" placeholder="項目 (如: 珍珠奶茶)" class="flex-[2] bg-white rounded-xl px-4 py-3 text-sm font-medium focus:bg-white focus:ring-2 focus:ring-blue-300 transition-all border border-blue-100">
+                        <input v-model="newExpense.amount" type="number" placeholder="台幣" class="flex-1 min-w-[80px] bg-white rounded-xl px-3 py-3 text-sm font-medium focus:bg-white focus:ring-2 focus:ring-blue-300 transition-all text-center border border-blue-100">
                     </div>
                     <div class="flex items-center justify-between">
-                        <label class="flex items-center justify-center w-10 h-10 rounded-xl bg-gray-100 text-gray-500 cursor-pointer hover:bg-gray-200 active:scale-95 transition overflow-hidden relative">
-                            <i v-if="!newExpense.image" class="fas fa-camera"></i>
+                        <label class="flex items-center justify-center w-10 h-10 rounded-xl bg-white text-gray-500 cursor-pointer hover:bg-gray-100 active:scale-95 transition overflow-hidden relative border border-blue-100 shadow-sm">
+                            <i v-if="!newExpense.image" class="fas fa-camera text-blue-400"></i>
                             <img v-else :src="newExpense.image" class="w-full h-full object-cover">
                             <input type="file" accept="image/*" class="hidden-input" @change="(e) => handleImageUpload(e, 'newExpense')">
                         </label>
-                        <button v-if="newExpense.image" @click="newExpense.image = ''" class="text-xs text-red-400 underline ml-2 mr-auto">刪除</button>
+                        <button v-if="newExpense.image" @click="newExpense.image = ''" class="text-xs text-red-400 underline ml-2 mr-auto font-bold">刪除</button>
                         <button @click="addExpense" class="bg-blue-600 text-white px-6 py-2.5 rounded-xl shadow-lg shadow-blue-200 active:scale-95 transition font-bold text-sm ml-auto">記一筆</button>
                     </div>
                 </div>
 
+                <!-- 記帳清單 (改為天空藍 bg-blue-100) -->
                 <div class="space-y-3 pb-10">
-                    <h3 class="text-xs font-bold text-gray-500 uppercase ml-1">Recent Transactions</h3>
-                    <div v-for="(exp, index) in expenses" :key="index" class="bg-white p-4 rounded-2xl border border-blue-100 shadow-sm relative overflow-hidden">
+                    <h3 class="text-xs font-bold text-gray-500 uppercase ml-1 bg-white/50 inline-block px-2 rounded">Recent Transactions</h3>
+                    <div v-for="(exp, index) in expenses" :key="index" class="bg-blue-100 p-4 rounded-2xl border border-blue-200 shadow-sm relative overflow-hidden">
                         <div class="flex justify-between items-start z-10 relative">
                             <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-400 shrink-0">
+                                <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-blue-400 shrink-0 shadow-sm">
                                     <i class="fas fa-shopping-bag text-sm"></i>
                                 </div>
                                 <div>
                                     <div class="font-bold text-gray-800 text-sm">{{ exp.item }}</div>
-                                    <div class="text-[10px] text-gray-400 font-medium">{{ exp.date }}</div>
+                                    <div class="text-[10px] text-gray-500 font-medium">{{ exp.date }}</div>
                                 </div>
                             </div>
                             <div class="text-right">
@@ -290,21 +299,21 @@
                                 <div class="text-[10px] text-emerald-600 font-bold">HK$ {{ (exp.amount * exchangeRate).toFixed(1) }}</div>
                             </div>
                         </div>
-                        <div v-if="exp.image" class="mt-3 rounded-lg overflow-hidden h-24 w-full relative shadow-inner border border-gray-100">
+                        <div v-if="exp.image" class="mt-3 rounded-lg overflow-hidden h-24 w-full relative shadow-inner border border-blue-200">
                             <img :src="exp.image" class="w-full h-full object-cover">
                         </div>
-                        <button @click="removeExpense(index)" class="absolute top-2 right-2 text-gray-200 hover:text-red-400 transition p-2"><i class="fas fa-times-circle"></i></button>
+                        <button @click="removeExpense(index)" class="absolute top-2 right-2 text-gray-300 hover:text-red-400 transition p-2"><i class="fas fa-times-circle"></i></button>
                     </div>
                 </div>
             </div>
 
             <!-- Tab 3: 地圖 Map -->
-            <div v-if="activeTab === 'map'" class="h-full flex flex-col bg-white">
-                <div class="p-4 border-b border-blue-100">
+            <div v-if="activeTab === 'map'" class="h-full flex flex-col bg-transparent">
+                <div class="p-4 border-b border-blue-200 bg-blue-100 rounded-t-2xl">
                     <div class="relative">
-                        <input type="text" v-model="mapSearchInput" @keyup.enter="triggerMapSearch" placeholder="搜尋地點並按 Enter..." class="w-full bg-blue-50 border-none rounded-xl pl-10 pr-12 py-3 text-sm font-medium focus:bg-white focus:ring-2 focus:ring-blue-200 transition-all">
+                        <input type="text" v-model="mapSearchInput" @keyup.enter="triggerMapSearch" placeholder="搜尋地點並按 Enter..." class="w-full bg-white border-none rounded-xl pl-10 pr-12 py-3 text-sm font-medium focus:bg-white focus:ring-2 focus:ring-blue-300 transition-all shadow-sm text-gray-800">
                         <i class="fas fa-search absolute left-4 top-3.5 text-gray-400 text-sm"></i>
-                        <button @click="triggerMapSearch" class="absolute right-2 top-2 bg-white shadow-sm text-blue-600 p-1.5 rounded-lg text-xs border border-blue-100 font-bold">Go</button>
+                        <button @click="triggerMapSearch" class="absolute right-2 top-2 bg-blue-50 shadow-sm text-blue-600 p-1.5 rounded-lg text-xs border border-blue-200 font-bold hover:bg-blue-100">Go</button>
                     </div>
                 </div>
                 <div class="flex-1 w-full bg-gray-100 relative">
@@ -315,8 +324,8 @@
 
         </div>
 
-        <!-- 3. 底部導航 Bottom Nav -->
-        <div class="absolute bottom-12 w-[94%] left-[3%] bg-white/90 backdrop-blur-md border border-white/50 shadow-2xl shadow-blue-900/10 flex justify-between items-center px-2 h-[70px] z-50 rounded-2xl">
+        <!-- 3. 底部導航 Bottom Nav (貼底設計，取消懸浮) -->
+        <div class="absolute bottom-0 w-full bg-white/95 backdrop-blur-md border-t border-gray-200 shadow-[0_-5px_20px_rgba(0,0,0,0.05)] flex justify-between items-center px-4 h-[80px] z-50 rounded-t-3xl pb-safe">
             
              <button @click="activeTab = 'checklist'" :class="activeTab === 'checklist' ? 'text-blue-600 scale-110' : 'text-gray-400'" class="flex-1 flex flex-col items-center py-2 transition-all active:scale-95">
                 <i class="fas fa-clipboard-check text-lg mb-0.5"></i>
@@ -328,9 +337,10 @@
                 <span class="text-[9px] font-bold">行程</span>
             </button>
             
-            <div class="relative -top-5 mx-1">
-                <button @click="addNewItem" class="bg-blue-600 text-white w-12 h-12 rounded-full shadow-lg shadow-blue-600/40 flex items-center justify-center transform active:scale-90 transition hover:bg-blue-700 ring-4 ring-blue-50">
-                    <i class="fas fa-plus text-base"></i>
+            <!-- 中央按鈕 -->
+            <div class="relative -top-6 mx-2">
+                <button @click="addNewItem" class="bg-blue-600 text-white w-14 h-14 rounded-full shadow-lg shadow-blue-600/40 flex items-center justify-center transform active:scale-90 transition hover:bg-blue-700 ring-4 ring-white">
+                    <i class="fas fa-plus text-xl"></i>
                 </button>
             </div>
 
@@ -344,9 +354,6 @@
                 <span class="text-[9px] font-bold">地圖</span>
             </button>
         </div>
-        
-        <!-- 底部墊高層 -->
-        <div class="absolute bottom-0 w-full h-12 bg-transparent z-40 pointer-events-none"></div>
 
     </div>
 </div>
@@ -356,7 +363,7 @@
 
     createApp({
         setup() {
-            const activeTab = ref('checklist');
+            const activeTab = ref('itinerary'); // 預設打開行程
             const currentDay = ref(1);
             const exchangeRate = ref(0.245);
             const weather = ref({ temp: null, desc: 'Loading...' });
@@ -383,7 +390,7 @@
                 reader.readAsDataURL(file);
             };
 
-            // --- 準備清單 (v12) ---
+            // --- 準備清單 (v12 data) ---
             const defaultChecklist = [
                 { id: 1, text: '個人證件', desc: '身分證、護照、簽證、學生證', icon: 'fa-id-card', checked: false },
                 { id: 2, text: '登機證', desc: '列印本或電子版本', icon: 'fa-ticket-alt', checked: false },
@@ -438,7 +445,7 @@
                 return daysConfig.value[currentDay.value];
             });
 
-            // --- 行程資料 ---
+            // --- 行程資料 (v12) ---
             const defaultItinerary = [
                 { id: 101, day: 1, time: '08:00', title: '抵達香港機場 (CX450)', image: '' },
                 { id: 102, day: 1, time: '10:00', title: 'CX450 起飛', image: '' },
