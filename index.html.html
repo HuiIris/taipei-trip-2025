@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>必必旅遊助手 PRO</title>
     
-    <!-- 新加入的 Icon 設定 -->
-    <link rel="icon" href="icon.png" type="image/png">
-    <link rel="apple-touch-icon" href="icon.png">    
-    
+    <!-- Anson Kong Icon -->
+    <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzQ7qKzY4QzQzQzQzQzQzQzQzQzQzQzQzQzQ&s">
+    <link rel="apple-touch-icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzQ7qKzY4QzQzQzQzQzQzQzQzQzQzQzQzQzQ&s">
+
     <!-- CDN 資源載入 -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
@@ -50,9 +50,9 @@
 
         <!-- 全域背景圖 (Anson Kong) -->
         <div class="absolute inset-0 z-0 bg-white">
-            <img src="https://ztylez.com/wp-content/uploads/2025/08/ANSON-KONG_Webpage-07-copy-2-%E8%A4%87%E6%9C%AC-2.webp" 
-                 class="w-full h-full object-cover opacity-45" 
-                 style="object-position: center 20%;">
+            <img src="https://ansonkongaustraliafc.wordpress.com/wp-content/uploads/2022/05/img_20220503_180001_164-1.jpg" 
+                 class="w-full h-full object-cover opacity-35" 
+                 style="object-position: center top;">
         </div>
 
         <!-- 1. 動態頁首 Header (層級提高 z-20) -->
@@ -106,7 +106,7 @@
             <!-- Tab 0: 準備清單 Checklist -->
             <div v-if="activeTab === 'checklist'" class="p-5 space-y-5">
                 
-                <!-- 進度條 (改為天空藍 bg-blue-100) -->
+                <!-- 進度條 -->
                 <div class="bg-blue-100 p-4 rounded-2xl shadow-sm border border-blue-200">
                     <div class="flex justify-between items-end mb-2">
                         <h2 class="text-lg font-bold text-gray-800">行李清單</h2>
@@ -117,7 +117,7 @@
                     </div>
                 </div>
 
-                <!-- 清單列表 (改為天空藍 bg-blue-100) -->
+                <!-- 清單列表 -->
                 <div class="space-y-3">
                     <div v-for="item in checklist" :key="item.id" 
                          @click="toggleCheck(item.id)"
@@ -162,7 +162,7 @@
                     </button>
                 </div>
 
-                <!-- 主題編輯區 (改為天空藍 bg-blue-100) -->
+                <!-- 主題編輯區 -->
                 <div class="bg-blue-100 p-4 rounded-2xl border border-blue-200 flex items-center gap-4 shadow-sm">
                     <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-blue-600 shrink-0 shadow-sm">
                         <i class="fas fa-pen-nib text-sm"></i>
@@ -190,7 +190,7 @@
                     <p class="text-gray-500 text-sm">還沒有行程<br>點擊右上方新增按鈕</p>
                 </div>
 
-                <!-- 行程卡片 (改為天空藍 bg-blue-100) -->
+                <!-- 行程卡片 -->
                 <div v-for="item in filteredItinerary" :key="item.id" class="bg-blue-100 p-4 rounded-2xl shadow-sm border border-blue-200 flex gap-4 group transition-all duration-300">
                     <!-- 時間軸 -->
                     <div class="flex flex-col items-center pt-1 w-14 shrink-0">
@@ -267,7 +267,7 @@
                     <div class="absolute bottom-0 left-0 w-32 h-32 bg-cyan-400/20 rounded-full blur-2xl"></div>
                 </div>
 
-                <!-- 輸入區 (改為天空藍 bg-blue-100) -->
+                <!-- 輸入區 -->
                 <div class="bg-blue-100 p-3 rounded-2xl shadow-sm border border-blue-200">
                     <div class="flex gap-2 mb-2">
                         <input v-model="newExpense.item" type="text" placeholder="項目 (如: 珍珠奶茶)" class="flex-[2] bg-white rounded-xl px-4 py-3 text-sm font-medium focus:bg-white focus:ring-2 focus:ring-blue-300 transition-all border border-blue-100">
@@ -284,7 +284,7 @@
                     </div>
                 </div>
 
-                <!-- 記帳清單 (改為天空藍 bg-blue-100) -->
+                <!-- 記帳清單 -->
                 <div class="space-y-3 pb-10">
                     <h3 class="text-xs font-bold text-gray-500 uppercase ml-1 bg-white/50 inline-block px-2 rounded">Recent Transactions</h3>
                     <div v-for="(exp, index) in expenses" :key="index" class="bg-blue-100 p-4 rounded-2xl border border-blue-200 shadow-sm relative overflow-hidden">
@@ -328,7 +328,7 @@
 
         </div>
 
-        <!-- 3. 底部導航 Bottom Nav (貼底設計，取消懸浮) -->
+        <!-- 3. 底部導航 Bottom Nav -->
         <div class="absolute bottom-0 w-full bg-white/95 backdrop-blur-md border-t border-gray-200 shadow-[0_-5px_20px_rgba(0,0,0,0.05)] flex justify-between items-center px-4 h-[80px] z-50 rounded-t-3xl pb-safe">
             
              <button @click="activeTab = 'checklist'" :class="activeTab === 'checklist' ? 'text-blue-600 scale-110' : 'text-gray-400'" class="flex-1 flex flex-col items-center py-2 transition-all active:scale-95">
@@ -367,7 +367,7 @@
 
     createApp({
         setup() {
-            const activeTab = ref('itinerary'); // 預設打開行程
+            const activeTab = ref('itinerary'); 
             const currentDay = ref(1);
             const exchangeRate = ref(0.245);
             const weather = ref({ temp: null, desc: 'Loading...' });
@@ -394,7 +394,7 @@
                 reader.readAsDataURL(file);
             };
 
-            // --- 準備清單 (v12 data) ---
+            // --- 準備清單 ---
             const defaultChecklist = [
                 { id: 1, text: '個人證件', desc: '身分證、護照、簽證、學生證', icon: 'fa-id-card', checked: false },
                 { id: 2, text: '登機證', desc: '列印本或電子版本', icon: 'fa-ticket-alt', checked: false },
@@ -435,13 +435,13 @@
                 }
             };
 
-            // --- 每日配置 ---
+            // --- 每日配置 (v16) ---
             const defaultDaysConfig = {
-                1: { theme: '香港 → 桃園 → 台北車站 → 幻隱光靈 → 黑武士 → ibon', image: 'https://i.ytimg.com/vi/y3bhqbHKjsc/maxresdefault.jpg' },
+                1: { theme: '香港 → 桃園 → 台北車站 → 幻隱光靈 → 新馬辣 → ibon', image: 'https://i.ytimg.com/vi/y3bhqbHKjsc/maxresdefault.jpg' },
                 2: { theme: '台北 ⇄ 中壢　排球日', image: 'https://jetmagazine.com.hk/wp-content/uploads/WhatsApp-Image-2023-06-15-at-1.17.02-PM.jpeg' },
-                3: { theme: '華山 → 腦弱星球 → 皮皮千層 → 天母漢來海港 → 寧夏夜市', image: 'https://ztylez.com/wp-content/uploads/2024/06/ANSON-KONG_4A-865x587.jpg' },
-                4: { theme: '士東市場阿吉師 → 東門老牌甜不辣 → 75度獴＋Fashion Jump → 福餃', image: 'https://ztylez.com/wp-content/uploads/2025/08/ANSON-KONG_Webpage-07-copy-2-%E8%A4%87%E6%9C%AC-2.webp' },
-                5: { theme: '台北車站地下街 → 西門町 → 家樂福桂林店 → 機場 → 香港', image: 'https://latestudio.hk/wp-content/uploads/2025/04/anson-kong-love-animation-3d-blender-music-video-banner-v3.jpg' }
+                3: { theme: '華山 → 腦弱星球 → 皮皮千層 → 天母漢來海港 → 士林夜市', image: 'https://cdn.i-scmp.com/sites/default/files/styles/og_image_scmp_generic/public/d8/images/canvas/2023/10/16/79c78d66-9ffc-4495-8731-666f523316a1_4ce6bf88.jpg?itok=kMxC8AtX&v=1697427712' },
+                4: { theme: '士東市場阿吉師 → 75度獴 → 夏慕尼 → 福餃', image: 'https://image.koreaboo.com/2024/07/Anson-Kong-FI.jpg' },
+                5: { theme: '西門町 → 家樂福 → 機場 → 香港', image: 'https://latestudio.hk/wp-content/uploads/2025/04/anson-kong-love-animation-3d-blender-music-video-banner-v3.jpg' }
             };
             const daysConfig = ref({...defaultDaysConfig});
             
@@ -450,43 +450,56 @@
                 return daysConfig.value[currentDay.value];
             });
 
-            // --- 行程資料 (v12) ---
+            // --- 行程資料 (v16) ---
             const defaultItinerary = [
+                // Day 1
                 { id: 101, day: 1, time: '08:00', title: '抵達香港機場 (CX450)', image: '' },
-                { id: 102, day: 1, time: '10:00', title: 'CX450 起飛', image: '' },
+                { id: 102, day: 1, time: '10:00', title: 'CX450 起飛 (HKG → TPE)', image: '' },
                 { id: 103, day: 1, time: '11:50', title: '抵達桃園機場 TPE', image: '' },
                 { id: 104, day: 1, time: '13:30', title: '機場捷運 → A1 台北車站', image: '' },
                 { id: 105, day: 1, time: '15:00', title: '美好行旅 Check-in (台北車站)', image: '' },
-                { id: 106, day: 1, time: '16:10', title: '《幻隱光靈：學院》松山文創', image: '' },
-                { id: 107, day: 1, time: '19:00', title: '黑武士特色老火鍋 (信義A9)', image: '' },
-                { id: 108, day: 1, time: '20:30', title: 'ibon 取票 (Day2 火車)', image: '' },
+                { id: 106, day: 1, time: '16:10', title: '《幻隱光靈：學院》沉浸體驗', image: '' },
+                { id: 107, day: 1, time: '18:10', title: '西門町逛街', image: '' },
+                { id: 108, day: 1, time: '19:15', title: '新馬辣經典麻辣鍋 (漢中店)', image: '' },
+                { id: 109, day: 1, time: '21:15', title: 'ibon 取票 (Day2 火車)', image: '' },
+                { id: 110, day: 1, time: '22:00', title: '回飯店休息', image: '' },
+
+                // Day 2
                 { id: 201, day: 2, time: '09:15', title: '台鐵便當本舖 (買早餐)', image: '' },
                 { id: 202, day: 2, time: '10:20', title: '自強(3000) 117 往中壢', image: '' },
-                { id: 203, day: 2, time: '11:40', title: '中原大學體育館 (排球準備)', image: '' },
-                { id: 204, day: 2, time: '13:00', title: '排球活動', image: '' },
-                { id: 205, day: 2, time: '18:00', title: '中原夜市/市區覓食', image: '' },
-                { id: 206, day: 2, time: '21:32', title: '自強(3000) 146 往台北', image: '' },
-                { id: 207, day: 2, time: '22:30', title: '西門町宵夜 (碳烤雞排)', image: '' },
+                { id: 203, day: 2, time: '11:15', title: '中壢車站 (皇后先生珍奶)', image: '' },
+                { id: 204, day: 2, time: '11:40', title: '中原大學體育館 (排球準備)', image: '' },
+                { id: 205, day: 2, time: '13:00', title: '排球活動', image: '' },
+                { id: 206, day: 2, time: '18:00', title: '晚餐 (中原夜市/簡師傅/溫記)', image: '' },
+                { id: 207, day: 2, time: '21:32', title: '自強(3000) 146 往台北', image: '' },
+                { id: 208, day: 2, time: '22:30', title: '西門町宵夜 (碳烤雞排)', image: '' },
+
+                // Day 3
                 { id: 301, day: 3, time: '10:30', title: '華山1914文創園區', image: '' },
                 { id: 302, day: 3, time: '12:30', title: '腦弱星球 Brain Weak (後山埤)', image: '' },
                 { id: 303, day: 3, time: '14:00', title: '皮皮手作千層', image: '' },
                 { id: 304, day: 3, time: '15:30', title: '天母 SOGO & 運動公園', image: '' },
                 { id: 305, day: 3, time: '17:30', title: '漢來海港自助餐 (天母SOGO)', image: '' },
-                { id: 306, day: 3, time: '20:10', title: '士林夜市散步', image: '' },
+                { id: 306, day: 3, time: '19:45', title: '士林夜市散步 (劍潭站)', image: '' },
+                { id: 307, day: 3, time: '21:55', title: '回飯店休息', image: '' },
+
+                // Day 4
                 { id: 401, day: 4, time: '10:00', title: '士東市場 (小吃)', image: '' },
                 { id: 402, day: 4, time: '11:30', title: '阿吉師 (立吞壽司)', image: '' },
-                { id: 403, day: 4, time: '14:00', title: '東門老牌甜不辣', image: '' },
-                { id: 404, day: 4, time: '15:15', title: '@fashion.jump.store (東區)', image: '' },
-                { id: 405, day: 4, time: '17:00', title: '75度獴 敦南旗艦店', image: '' },
-                { id: 406, day: 4, time: '19:15', title: 'Fuggler 快閃店 (中山新光)', image: '' },
-                { id: 407, day: 4, time: '20:00', title: '福餃 FUKGYO (雙連)', image: '' },
-                { id: 501, day: 5, time: '09:30', title: '家樂福重慶店 (早餐&採買)', image: '' },
-                { id: 502, day: 5, time: '11:00', title: '退房 & 寄放行李', image: '' },
-                { id: 503, day: 5, time: '11:10', title: '台北車站地下街/K區', image: '' },
-                { id: 504, day: 5, time: '12:15', title: '西門町午餐 (金園/忻鮨)', image: '' },
-                { id: 505, day: 5, time: '13:40', title: '家樂福桂林店 (最後採買)', image: '' },
-                { id: 506, day: 5, time: '15:40', title: '回飯店取行李 → 機場捷運', image: '' },
-                { id: 507, day: 5, time: '17:00', title: '前往桃園機場', image: '' },
+                { id: 403, day: 4, time: '14:00', title: '75度獴 敦南旗艦店', image: '' },
+                { id: 404, day: 4, time: '16:00', title: 'Fashion Jump (東區)', image: '' },
+                { id: 405, day: 4, time: '17:00', title: 'Fuggler 快閃店 (中山新光)', image: '' },
+                { id: 406, day: 4, time: '18:20', title: '夏慕尼鐵板燒 (中山北店)', image: '' },
+                { id: 407, day: 4, time: '20:15', title: '福餃 FUKGYO (雙連)', image: '' },
+
+                // Day 5
+                { id: 501, day: 5, time: '09:45', title: '新光三越 南西店 (Fuggler)', image: '' },
+                { id: 502, day: 5, time: '11:00', title: '退房/家樂福重慶店/地下街', image: '' },
+                { id: 503, day: 5, time: '12:10', title: '西門町午餐 (金園/忻鮨)', image: '' },
+                { id: 504, day: 5, time: '13:30', title: '西門町小吃 (碳烤雞排)', image: '' },
+                { id: 505, day: 5, time: '15:10', title: '回飯店取行李', image: '' },
+                { id: 506, day: 5, time: '15:40', title: '前往機場捷運 A1', image: '' },
+                { id: 507, day: 5, time: '16:20', title: '抵達桃園機場/報到', image: '' },
                 { id: 508, day: 5, time: '20:15', title: 'CX531 起飛回香港', image: '' }
             ];
 
@@ -551,12 +564,13 @@
                 if(mapSearchInput.value.trim() !== '') mapQuery.value = mapSearchInput.value;
             };
 
-            // --- 初始化 & 儲存 (V12) ---
+            // --- 初始化 & 儲存 (V16) ---
             onMounted(async () => {
-                const currentVer = 'v12';
+                const currentVer = 'v16';
                 const savedVer = localStorage.getItem('app_version');
 
                 if (savedVer !== currentVer) {
+                    // 版本更新，強制覆蓋行程
                     localStorage.setItem('tp_days_' + currentVer, JSON.stringify(defaultDaysConfig));
                     localStorage.setItem('tp_itin_' + currentVer, JSON.stringify(defaultItinerary));
                     localStorage.setItem('tp_check_' + currentVer, JSON.stringify(defaultChecklist));
@@ -591,7 +605,7 @@
                 } catch(e) { console.log(e); }
             });
 
-            const ver = 'v12';
+            const ver = 'v16';
             watch(daysConfig, v => localStorage.setItem('tp_days_' + ver, JSON.stringify(v)), { deep: true });
             watch(itinerary, v => localStorage.setItem('tp_itin_' + ver, JSON.stringify(v)), { deep: true });
             watch(expenses, v => localStorage.setItem('tp_exp_' + ver, JSON.stringify(v)), { deep: true });
@@ -616,15 +630,3 @@
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
