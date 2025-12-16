@@ -48,9 +48,9 @@
     <!-- App 容器 -->
     <div class="bg-gray-50 w-full max-w-[400px] h-[100vh] md:h-[850px] md:rounded-[40px] overflow-hidden relative flex flex-col mobile-frame border-4 border-gray-800">
 
-        <!-- 全域背景圖 (Updated v17) -->
+        <!-- 全域背景圖 (Updated v18 - 全身照) -->
         <div class="absolute inset-0 z-0 bg-white">
-            <img src="https://ztylez.com/wp-content/uploads/2025/08/ANSON-KONG_Webpage-07-copy-2-%E8%A4%87%E6%9C%AC-2.webp" 
+            <img src="https://ztylez.com/wp-content/uploads/2025/08/ANSON-KONG-14-865x1297.webp" 
                  class="w-full h-full object-cover opacity-35" 
                  style="object-position: center top;">
         </div>
@@ -435,10 +435,10 @@
                 }
             };
 
-            // --- 每日配置 (v17 - Updated Images) ---
+            // --- 每日配置 (v18 - Updated Day 2 and Global BG) ---
             const defaultDaysConfig = {
                 1: { theme: '香港 → 桃園 → 台北車站 → 幻隱光靈 → 新馬辣 → ibon', image: 'https://i.ytimg.com/vi/y3bhqbHKjsc/maxresdefault.jpg' },
-                2: { theme: '台北 ⇄ 中壢　排球日', image: 'https://jetmagazine.com.hk/wp-content/uploads/WhatsApp-Image-2023-06-15-at-1.17.02-PM.jpeg' },
+                2: { theme: '台北 ⇄ 中壢　排球日', image: 'https://ztylez.com/wp-content/uploads/2025/08/ANSON-KONG_Webpage-07-copy-2-%E8%A4%87%E6%9C%AC-2.webp' },
                 3: { theme: '華山 → 腦弱星球 → 皮皮千層 → 天母漢來海港 → 士林夜市', image: 'https://ztylez.com/wp-content/uploads/2024/06/ANSON-KONG_4A-865x587.jpg' },
                 4: { theme: '士東市場阿吉師 → 75度獴 → 夏慕尼 → 福餃', image: 'https://ztylez.com/wp-content/uploads/2025/08/ANSON-KONG_Webpage-07-%E8%A4%87%E6%9C%AC.webp' },
                 5: { theme: '西門町 → 家樂福 → 機場 → 香港', image: 'https://latestudio.hk/wp-content/uploads/2025/04/anson-kong-love-animation-3d-blender-music-video-banner-v3.jpg' }
@@ -450,7 +450,7 @@
                 return daysConfig.value[currentDay.value];
             });
 
-            // --- 行程資料 (v17) ---
+            // --- 行程資料 (v18) ---
             const defaultItinerary = [
                 // Day 1
                 { id: 101, day: 1, time: '08:00', title: '抵達香港機場 (CX450)', image: '' },
@@ -564,9 +564,9 @@
                 if(mapSearchInput.value.trim() !== '') mapQuery.value = mapSearchInput.value;
             };
 
-            // --- 初始化 & 儲存 (V17 - 使用 v17 key 確保新背景生效) ---
+            // --- 初始化 & 儲存 (V18 - 使用 v18 key 確保新背景生效) ---
             onMounted(async () => {
-                const currentVer = 'v17';
+                const currentVer = 'v18';
                 const savedVer = localStorage.getItem('app_version');
 
                 if (savedVer !== currentVer) {
@@ -604,7 +604,7 @@
                 } catch(e) { console.log(e); }
             });
 
-            const ver = 'v17';
+            const ver = 'v18';
             watch(daysConfig, v => localStorage.setItem('tp_days_' + ver, JSON.stringify(v)), { deep: true });
             watch(itinerary, v => localStorage.setItem('tp_itin_' + ver, JSON.stringify(v)), { deep: true });
             watch(expenses, v => localStorage.setItem('tp_exp_' + ver, JSON.stringify(v)), { deep: true });
