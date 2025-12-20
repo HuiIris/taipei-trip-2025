@@ -48,7 +48,7 @@
     <!-- App 容器 -->
     <div class="bg-gray-50 w-full max-w-[400px] h-[100vh] md:h-[850px] md:rounded-[40px] overflow-hidden relative flex flex-col mobile-frame border-4 border-gray-800">
 
-        <!-- 全域背景圖 (Updated v19 - 增加 top-32 將圖片下移) -->
+        <!-- 全域背景圖 (Updated v19/20 - top-32) -->
         <div class="absolute inset-0 z-0 bg-white top-32">
             <img src="https://ztylez.com/wp-content/uploads/2025/08/ANSON-KONG-14-865x1297.webp" 
                  class="w-full h-full object-cover opacity-35" 
@@ -105,8 +105,6 @@
             
             <!-- Tab 0: 準備清單 Checklist -->
             <div v-if="activeTab === 'checklist'" class="p-5 space-y-5">
-                
-                <!-- 進度條 -->
                 <div class="bg-blue-100 p-4 rounded-2xl shadow-sm border border-blue-200">
                     <div class="flex justify-between items-end mb-2">
                         <h2 class="text-lg font-bold text-gray-800">行李清單</h2>
@@ -116,139 +114,65 @@
                         <div class="bg-blue-600 h-2.5 rounded-full transition-all duration-500" :style="{ width: checklistProgress + '%' }"></div>
                     </div>
                 </div>
-
-                <!-- 清單列表 -->
                 <div class="space-y-3">
-                    <div v-for="item in checklist" :key="item.id" 
-                         @click="toggleCheck(item.id)"
-                         class="bg-blue-100 p-4 rounded-xl border border-blue-200 shadow-sm flex items-center gap-4 cursor-pointer transition-all active:scale-95 group hover:bg-blue-200/50">
-                        
-                        <!-- Icon -->
-                        <div :class="item.checked ? 'bg-green-100 text-green-600' : 'bg-white text-blue-500'" 
-                             class="w-10 h-10 rounded-full flex items-center justify-center shrink-0 transition-colors shadow-sm">
-                            <i :class="['fas', item.icon]"></i>
-                        </div>
-
-                        <!-- Text -->
-                        <div class="flex-1">
-                            <h3 :class="item.checked ? 'text-gray-400 line-through' : 'text-gray-800'" class="font-bold text-sm transition-all">{{ item.text }}</h3>
-                            <p class="text-[10px] text-gray-500">{{ item.desc }}</p>
-                        </div>
-
-                        <!-- Checkbox UI -->
-                        <div class="w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all"
-                             :class="item.checked ? 'border-green-500 bg-green-500' : 'border-blue-300 bg-white'">
-                            <i v-if="item.checked" class="fas fa-check text-white text-xs"></i>
-                        </div>
+                    <div v-for="item in checklist" :key="item.id" @click="toggleCheck(item.id)" class="bg-blue-100 p-4 rounded-xl border border-blue-200 shadow-sm flex items-center gap-4 cursor-pointer transition-all active:scale-95 group hover:bg-blue-200/50">
+                        <div :class="item.checked ? 'bg-green-100 text-green-600' : 'bg-white text-blue-500'" class="w-10 h-10 rounded-full flex items-center justify-center shrink-0 transition-colors shadow-sm"><i :class="['fas', item.icon]"></i></div>
+                        <div class="flex-1"><h3 :class="item.checked ? 'text-gray-400 line-through' : 'text-gray-800'" class="font-bold text-sm transition-all">{{ item.text }}</h3><p class="text-[10px] text-gray-500">{{ item.desc }}</p></div>
+                        <div class="w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all" :class="item.checked ? 'border-green-500 bg-green-500' : 'border-blue-300 bg-white'"><i v-if="item.checked" class="fas fa-check text-white text-xs"></i></div>
                     </div>
                 </div>
-                
-                <!-- 重置按鈕 -->
-                <div class="text-center pt-4 pb-10">
-                    <button @click="resetChecklist" class="text-xs text-gray-500 underline hover:text-red-500 font-bold bg-white/50 px-3 py-1 rounded-full">重置所有清單</button>
-                </div>
+                <div class="text-center pt-4 pb-10"><button @click="resetChecklist" class="text-xs text-gray-500 underline hover:text-red-500 font-bold bg-white/50 px-3 py-1 rounded-full">重置所有清單</button></div>
             </div>
 
             <!-- Tab 1: 行程表 -->
             <div v-if="activeTab === 'itinerary'" class="p-5 space-y-5">
-                <!-- 日期選擇器 -->
                 <div class="flex gap-3 overflow-x-auto pb-2 no-scrollbar snap-x">
-                    <button v-for="d in 5" :key="d" 
-                        @click="currentDay = d"
-                        :class="currentDay === d ? 'bg-blue-600 text-white shadow-lg ring-2 ring-offset-2 ring-blue-600 scale-105' : 'bg-blue-100 text-gray-500 border border-blue-200 hover:border-blue-400'"
-                        class="flex-shrink-0 w-14 h-16 rounded-2xl flex flex-col items-center justify-center transition-all duration-300 snap-center">
-                        <span class="text-[10px] font-bold uppercase tracking-widest mb-1 opacity-70">Day</span>
-                        <span class="text-xl font-bold">{{ d }}</span>
-                    </button>
+                    <button v-for="d in 5" :key="d" @click="currentDay = d" :class="currentDay === d ? 'bg-blue-600 text-white shadow-lg ring-2 ring-offset-2 ring-blue-600 scale-105' : 'bg-blue-100 text-gray-500 border border-blue-200 hover:border-blue-400'" class="flex-shrink-0 w-14 h-16 rounded-2xl flex flex-col items-center justify-center transition-all duration-300 snap-center"><span class="text-[10px] font-bold uppercase tracking-widest mb-1 opacity-70">Day</span><span class="text-xl font-bold">{{ d }}</span></button>
                 </div>
-
-                <!-- 主題編輯區 -->
                 <div class="bg-blue-100 p-4 rounded-2xl border border-blue-200 flex items-center gap-4 shadow-sm">
-                    <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-blue-600 shrink-0 shadow-sm">
-                        <i class="fas fa-pen-nib text-sm"></i>
-                    </div>
-                    <div class="flex-1 min-w-0">
-                        <label class="text-[10px] font-bold text-blue-500 uppercase block mb-1">今日主題</label>
-                        <input type="text" 
-                               v-model="daysConfig[currentDay].theme"
-                               class="w-full bg-transparent border-b-2 border-blue-300 focus:border-blue-600 text-gray-800 font-bold text-sm pb-1 transition-colors placeholder-gray-400"
-                               placeholder="點擊設定...">
-                    </div>
+                    <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-blue-600 shrink-0 shadow-sm"><i class="fas fa-pen-nib text-sm"></i></div>
+                    <div class="flex-1 min-w-0"><label class="text-[10px] font-bold text-blue-500 uppercase block mb-1">今日主題</label><input type="text" v-model="daysConfig[currentDay].theme" class="w-full bg-transparent border-b-2 border-blue-300 focus:border-blue-600 text-gray-800 font-bold text-sm pb-1 transition-colors placeholder-gray-400" placeholder="點擊設定..."></div>
                 </div>
-
-                <!-- 行程列表控制 -->
                 <div class="flex justify-between items-center pt-2">
                     <h2 class="text-lg font-bold text-gray-900 bg-white/50 px-2 rounded-lg backdrop-blur-sm">當日行程</h2>
-                    <button @click="addNewItem" class="flex items-center gap-1 text-sm font-bold text-blue-700 bg-blue-100 border border-blue-300 px-3 py-1.5 rounded-full hover:bg-blue-200 transition shadow-sm">
-                        <i class="fas fa-plus"></i> 新增
-                    </button>
+                    <button @click="addNewItem" class="flex items-center gap-1 text-sm font-bold text-blue-700 bg-blue-100 border border-blue-300 px-3 py-1.5 rounded-full hover:bg-blue-200 transition shadow-sm"><i class="fas fa-plus"></i> 新增</button>
                 </div>
-
-                <!-- 空狀態 -->
                 <div v-if="filteredItinerary.length === 0" class="py-12 text-center border-2 border-dashed border-blue-300 rounded-2xl bg-blue-100/80">
                     <div class="text-blue-300 text-4xl mb-3"><i class="fas fa-calendar-plus"></i></div>
                     <p class="text-gray-500 text-sm">還沒有行程<br>點擊右上方新增按鈕</p>
                 </div>
-
-                <!-- 行程卡片 -->
                 <div v-for="item in filteredItinerary" :key="item.id" class="bg-blue-100 p-4 rounded-2xl shadow-sm border border-blue-200 flex gap-4 group transition-all duration-300">
-                    <!-- 時間軸 -->
                     <div class="flex flex-col items-center pt-1 w-14 shrink-0">
                         <span class="text-gray-900 font-black text-sm font-mono">{{ item.time }}</span>
                         <div class="h-full w-0.5 bg-blue-200 mt-2 rounded-full group-hover:bg-blue-400 transition-colors"></div>
                     </div>
-                    <!-- 內容 -->
                     <div class="flex-1 min-w-0">
-                        <!-- 編輯模式 -->
                         <div v-if="editingId === item.id" class="space-y-3 bg-white/50 p-3 rounded-xl border border-blue-300">
-                            <div class="flex gap-2">
-                                <input v-model="editForm.time" type="time" class="bg-white border border-blue-300 rounded-lg px-2 py-1 text-xs shadow-sm">
-                                <input v-model="editForm.title" type="text" class="flex-1 bg-white border border-blue-300 rounded-lg px-3 py-1 text-sm shadow-sm" placeholder="輸入行程...">
-                            </div>
-                            <!-- 上傳照片區 -->
+                            <div class="flex gap-2"><input v-model="editForm.time" type="time" class="bg-white border border-blue-300 rounded-lg px-2 py-1 text-xs shadow-sm"><input v-model="editForm.title" type="text" class="flex-1 bg-white border border-blue-300 rounded-lg px-3 py-1 text-sm shadow-sm" placeholder="輸入行程..."></div>
                             <div class="flex items-center justify-between">
-                                <label class="flex items-center gap-2 text-xs text-blue-600 bg-white px-3 py-1.5 rounded-lg border border-blue-200 cursor-pointer active:scale-95 transition shadow-sm">
-                                    <i class="fas fa-camera"></i> {{ editForm.image ? '更換' : '照片' }}
-                                    <input type="file" accept="image/*" class="hidden-input" @change="(e) => handleImageUpload(e, 'editForm')">
-                                </label>
-                                <div v-if="editForm.image" class="text-xs text-gray-500 flex items-center gap-1">
-                                    <i class="fas fa-check-circle text-green-500"></i> 已選取
-                                    <button @click="editForm.image = ''" class="text-red-400 ml-1"><i class="fas fa-times"></i></button>
-                                </div>
+                                <label class="flex items-center gap-2 text-xs text-blue-600 bg-white px-3 py-1.5 rounded-lg border border-blue-200 cursor-pointer active:scale-95 transition shadow-sm"><i class="fas fa-camera"></i> {{ editForm.image ? '更換' : '照片' }}<input type="file" accept="image/*" class="hidden-input" @change="(e) => handleImageUpload(e, 'editForm')"></label>
+                                <div v-if="editForm.image" class="text-xs text-gray-500 flex items-center gap-1"><i class="fas fa-check-circle text-green-500"></i> 已選取<button @click="editForm.image = ''" class="text-red-400 ml-1"><i class="fas fa-times"></i></button></div>
                             </div>
                             <div class="flex gap-2 justify-end mt-2 border-t border-blue-200 pt-2">
                                 <button @click="cancelEdit" class="text-xs text-gray-500 px-3 py-1">取消</button>
                                 <button @click="saveEdit(item.id)" class="text-xs bg-blue-600 text-white px-4 py-1.5 rounded-lg shadow font-bold">儲存</button>
                             </div>
                         </div>
-
-                        <!-- 顯示模式 -->
                         <div v-else>
                             <h3 class="font-bold text-gray-800 text-base mb-2 truncate">{{ item.title }}</h3>
-                            <!-- 顯示照片 -->
-                            <div v-if="item.image" class="mb-3 rounded-xl overflow-hidden h-32 w-full relative shadow-inner border border-blue-200">
-                                <img :src="item.image" class="w-full h-full object-cover">
-                            </div>
+                            <div v-if="item.image" class="mb-3 rounded-xl overflow-hidden h-32 w-full relative shadow-inner border border-blue-200"><img :src="item.image" class="w-full h-full object-cover"></div>
                             <div class="flex items-center justify-between">
-                                <button @click="openMap(item.title)" class="text-[11px] bg-white hover:bg-blue-200 text-blue-600 px-3 py-1.5 rounded-lg font-bold transition-colors flex items-center gap-1.5 shadow-sm border border-blue-100">
-                                    <i class="fas fa-location-arrow text-[10px]"></i> 導航
-                                </button>
-                                <div class="flex gap-1">
-                                    <button @click="startEdit(item)" class="w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:bg-white hover:text-blue-600 transition">
-                                        <i class="fas fa-pen text-xs"></i>
-                                    </button>
-                                    <button @click="deleteItem(item.id)" class="w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:bg-red-50 hover:text-red-500 transition">
-                                        <i class="fas fa-trash text-xs"></i>
-                                    </button>
-                                </div>
+                                <button @click="openMap(item.title)" class="text-[11px] bg-white hover:bg-blue-200 text-blue-600 px-3 py-1.5 rounded-lg font-bold transition-colors flex items-center gap-1.5 shadow-sm border border-blue-100"><i class="fas fa-location-arrow text-[10px]"></i> 導航</button>
+                                <div class="flex gap-1"><button @click="startEdit(item)" class="w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:bg-white hover:text-blue-600 transition"><i class="fas fa-pen text-xs"></i></button><button @click="deleteItem(item.id)" class="w-8 h-8 flex items-center justify-center rounded-full text-gray-400 hover:bg-red-50 hover:text-red-500 transition"><i class="fas fa-trash text-xs"></i></button></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Tab 2: 記帳 Wallet -->
+            <!-- Tab 2: 記帳 Wallet (V20 Updated with Edit & Date/Time & Location) -->
             <div v-if="activeTab === 'wallet'" class="p-5 space-y-5">
+                <!-- 總覽卡片 -->
                 <div class="bg-gradient-to-br from-blue-600 to-blue-800 text-white p-6 rounded-3xl shadow-xl shadow-blue-500/30 relative overflow-hidden">
                     <div class="relative z-10">
                         <p class="text-blue-100 text-xs font-bold tracking-widest uppercase mb-1">Total Spending</p>
@@ -267,35 +191,75 @@
                     <div class="absolute bottom-0 left-0 w-32 h-32 bg-cyan-400/20 rounded-full blur-2xl"></div>
                 </div>
 
-                <!-- 輸入區 -->
-                <div class="bg-blue-100 p-3 rounded-2xl shadow-sm border border-blue-200">
+                <!-- 輸入/編輯區 (V20 Updated) -->
+                <div class="bg-blue-100 p-3 rounded-2xl shadow-sm border border-blue-200 relative transition-all duration-300" :class="editingExpenseId ? 'ring-2 ring-orange-300 bg-orange-50 border-orange-200' : ''">
+                    <!-- 標題 -->
+                    <div v-if="editingExpenseId" class="absolute -top-3 left-4 bg-orange-400 text-white text-[10px] px-2 py-0.5 rounded-full shadow-sm font-bold">
+                        修改消費
+                    </div>
+
                     <div class="flex gap-2 mb-2">
-                        <input v-model="newExpense.item" type="text" placeholder="項目 (如: 珍珠奶茶)" class="flex-[2] bg-white rounded-xl px-4 py-3 text-sm font-medium focus:bg-white focus:ring-2 focus:ring-blue-300 transition-all border border-blue-100">
-                        <input v-model="newExpense.amount" type="number" placeholder="台幣" class="flex-1 min-w-[80px] bg-white rounded-xl px-3 py-3 text-sm font-medium focus:bg-white focus:ring-2 focus:ring-blue-300 transition-all text-center border border-blue-100">
+                        <!-- 日期時間 (新功能) -->
+                        <input v-model="expenseForm.datetime" type="datetime-local" class="w-28 bg-white rounded-xl px-2 py-3 text-[10px] font-medium focus:bg-white focus:ring-2 focus:ring-blue-300 transition-all border border-blue-100 text-center text-gray-500">
+                        
+                        <input v-model="expenseForm.item" type="text" placeholder="項目" class="flex-[2] bg-white rounded-xl px-3 py-3 text-sm font-medium focus:bg-white focus:ring-2 focus:ring-blue-300 transition-all border border-blue-100">
+                        <input v-model="expenseForm.amount" type="number" placeholder="$" class="flex-1 min-w-[60px] bg-white rounded-xl px-2 py-3 text-sm font-medium focus:bg-white focus:ring-2 focus:ring-blue-300 transition-all text-center border border-blue-100">
                     </div>
+                    
                     <div class="flex items-center justify-between">
-                        <label class="flex items-center justify-center w-10 h-10 rounded-xl bg-white text-gray-500 cursor-pointer hover:bg-gray-100 active:scale-95 transition overflow-hidden relative border border-blue-100 shadow-sm">
-                            <i v-if="!newExpense.image" class="fas fa-camera text-blue-400"></i>
-                            <img v-else :src="newExpense.image" class="w-full h-full object-cover">
-                            <input type="file" accept="image/*" class="hidden-input" @change="(e) => handleImageUpload(e, 'newExpense')">
-                        </label>
-                        <button v-if="newExpense.image" @click="newExpense.image = ''" class="text-xs text-red-400 underline ml-2 mr-auto font-bold">刪除</button>
-                        <button @click="addExpense" class="bg-blue-600 text-white px-6 py-2.5 rounded-xl shadow-lg shadow-blue-200 active:scale-95 transition font-bold text-sm ml-auto">記一筆</button>
+                        <div class="flex items-center gap-2">
+                            <!-- 照片按鈕 -->
+                            <label class="flex items-center justify-center w-10 h-10 rounded-xl bg-white text-gray-500 cursor-pointer hover:bg-gray-100 active:scale-95 transition overflow-hidden relative border border-blue-100 shadow-sm group">
+                                <i v-if="!expenseForm.image" class="fas fa-camera text-blue-400 group-hover:scale-110 transition-transform"></i>
+                                <img v-else :src="expenseForm.image" class="w-full h-full object-cover">
+                                <input type="file" accept="image/*" class="hidden-input" @change="(e) => handleImageUpload(e, 'expenseForm')">
+                            </label>
+                            
+                            <!-- 定位按鈕 (新功能) -->
+                            <button @click="getCurrentLocation" 
+                                    :class="expenseForm.location ? 'text-red-500 bg-red-50 border-red-200' : 'text-gray-400 bg-white border-blue-100'"
+                                    class="w-10 h-10 rounded-xl flex items-center justify-center border shadow-sm active:scale-95 transition relative">
+                                <i class="fas fa-map-marker-alt" :class="isLocating ? 'animate-bounce' : ''"></i>
+                                <span v-if="expenseForm.location" class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-green-500 rounded-full border border-white"></span>
+                            </button>
+                        </div>
+
+                        <!-- 操作按鈕 -->
+                        <div class="flex gap-2 items-center">
+                            <button v-if="editingExpenseId" @click="cancelEditExpense" class="text-xs text-gray-400 hover:text-gray-600 px-2">取消</button>
+                            <button @click="addOrUpdateExpense" 
+                                    :class="editingExpenseId ? 'bg-orange-400 shadow-orange-200' : 'bg-blue-600 shadow-blue-200'"
+                                    class="text-white px-5 py-2.5 rounded-xl shadow-lg active:scale-95 transition font-bold text-sm">
+                                {{ editingExpenseId ? '更新' : '記一筆' }}
+                            </button>
+                        </div>
                     </div>
+                    
+                    <!-- 清除圖片按鈕 -->
+                    <button v-if="expenseForm.image" @click="expenseForm.image = ''" class="absolute bottom-14 left-12 bg-gray-800/70 text-white rounded-full w-4 h-4 flex items-center justify-center text-[10px]"><i class="fas fa-times"></i></button>
                 </div>
 
                 <!-- 記帳清單 -->
                 <div class="space-y-3 pb-10">
-                    <h3 class="text-xs font-bold text-gray-500 uppercase ml-1 bg-white/50 inline-block px-2 rounded">Recent Transactions</h3>
-                    <div v-for="(exp, index) in expenses" :key="index" class="bg-blue-100 p-4 rounded-2xl border border-blue-200 shadow-sm relative overflow-hidden">
+                    <div class="flex justify-between items-center px-1">
+                        <h3 class="text-xs font-bold text-gray-500 uppercase bg-white/50 inline-block px-2 rounded">Recent Transactions</h3>
+                        <span class="text-[10px] text-gray-400">{{ expenses.length }} 筆資料</span>
+                    </div>
+                    
+                    <div v-for="(exp, index) in expenses" :key="exp.id" class="bg-blue-100 p-4 rounded-2xl border border-blue-200 shadow-sm relative overflow-hidden group">
                         <div class="flex justify-between items-start z-10 relative">
                             <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-blue-400 shrink-0 shadow-sm">
-                                    <i class="fas fa-shopping-bag text-sm"></i>
+                                <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-blue-400 shrink-0 shadow-sm text-lg font-bold">
+                                    {{ exp.dateStr ? exp.dateStr.split(' ')[1] : 'Today' }}
                                 </div>
                                 <div>
                                     <div class="font-bold text-gray-800 text-sm">{{ exp.item }}</div>
-                                    <div class="text-[10px] text-gray-500 font-medium">{{ exp.date }}</div>
+                                    <div class="text-[10px] text-gray-500 font-medium flex items-center gap-2">
+                                        <span><i class="far fa-clock"></i> {{ formatTime(exp.datetime) }}</span>
+                                        <a v-if="exp.location" :href="`https://www.google.com/maps?q=${exp.location.lat},${exp.location.lng}`" target="_blank" class="text-red-400 hover:text-red-600 bg-white px-1.5 py-0.5 rounded-md shadow-sm">
+                                            <i class="fas fa-map-marker-alt"></i> 地圖
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                             <div class="text-right">
@@ -303,10 +267,21 @@
                                 <div class="text-[10px] text-emerald-600 font-bold">HK$ {{ (exp.amount * exchangeRate).toFixed(1) }}</div>
                             </div>
                         </div>
+                        
+                        <!-- 顯示圖片 -->
                         <div v-if="exp.image" class="mt-3 rounded-lg overflow-hidden h-24 w-full relative shadow-inner border border-blue-200">
                             <img :src="exp.image" class="w-full h-full object-cover">
                         </div>
-                        <button @click="removeExpense(index)" class="absolute top-2 right-2 text-gray-300 hover:text-red-400 transition p-2"><i class="fas fa-times-circle"></i></button>
+
+                        <!-- 編輯與刪除按鈕 (V20 Added) -->
+                        <div class="absolute top-2 right-2 flex gap-1">
+                            <button @click="startEditExpense(exp)" class="w-7 h-7 rounded-full bg-white/80 text-gray-400 hover:text-blue-500 hover:bg-white transition flex items-center justify-center shadow-sm">
+                                <i class="fas fa-pen text-xs"></i>
+                            </button>
+                            <button @click="deleteExpense(exp.id)" class="w-7 h-7 rounded-full bg-white/80 text-gray-400 hover:text-red-500 hover:bg-white transition flex items-center justify-center shadow-sm">
+                                <i class="fas fa-trash text-xs"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -389,12 +364,12 @@
                 reader.onload = (e) => {
                     const base64String = e.target.result;
                     if (target === 'editForm') editForm.value.image = base64String;
-                    else if (target === 'newExpense') newExpense.value.image = base64String;
+                    else if (target === 'expenseForm') expenseForm.value.image = base64String;
                 };
                 reader.readAsDataURL(file);
             };
 
-            // --- 準備清單 (v19) ---
+            // --- 準備清單 ---
             const defaultChecklist = [
                 { id: 1, text: '個人證件', desc: '身分證、護照、簽證、學生證', icon: 'fa-id-card', checked: false },
                 { id: 2, text: '登機證', desc: '列印本或電子版本', icon: 'fa-ticket-alt', checked: false },
@@ -435,7 +410,7 @@
                 }
             };
 
-            // --- 每日配置 (v19) ---
+            // --- 每日配置 ---
             const defaultDaysConfig = {
                 1: { theme: '香港 → 桃園 → 台北車站 → 幻隱光靈 → 新馬辣 → ibon', image: 'https://i.ytimg.com/vi/y3bhqbHKjsc/maxresdefault.jpg' },
                 2: { theme: '台北 ⇄ 中壢　排球日', image: 'https://ztylez.com/wp-content/uploads/2025/08/ANSON-KONG_Webpage-07-copy-2-%E8%A4%87%E6%9C%AC-2.webp' },
@@ -450,7 +425,7 @@
                 return daysConfig.value[currentDay.value];
             });
 
-            // --- 行程資料 (v19) ---
+            // --- 行程資料 ---
             const defaultItinerary = [
                 // Day 1
                 { id: 101, day: 1, time: '08:00', title: '抵達香港機場 (CX450)', image: '' },
@@ -540,20 +515,122 @@
             const cancelEdit = () => editingId.value = null;
             const openMap = (loc) => window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('台北 ' + loc)}`, '_blank');
 
-            // --- 記帳 ---
+            // --- 記帳邏輯 (V20 - Advanced Features) ---
             const expenses = ref([]);
-            const newExpense = ref({ item: '', amount: '', image: '' });
-            const addExpense = () => {
-                if(!newExpense.value.item || !newExpense.value.amount) return;
-                expenses.value.unshift({
-                    item: newExpense.value.item,
-                    amount: parseFloat(newExpense.value.amount),
-                    date: new Date().toLocaleDateString(),
-                    image: newExpense.value.image
-                });
-                newExpense.value = { item: '', amount: '', image: '' };
+            const newExpense = ref({ item: '', amount: '', image: '' }); // Deprecated legacy fallback
+            const editingExpenseId = ref(null);
+            
+            // New Unified Form State
+            const expenseForm = ref({
+                item: '',
+                amount: '',
+                image: '',
+                datetime: '', // format: YYYY-MM-DDTHH:mm
+                location: null // { lat, lng }
+            });
+            const isLocating = ref(false);
+
+            // Init form with current time
+            const initExpenseForm = () => {
+                const now = new Date();
+                // Offset timezone for proper default value in input type="datetime-local"
+                now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+                expenseForm.value = {
+                    item: '',
+                    amount: '',
+                    image: '',
+                    datetime: now.toISOString().slice(0, 16),
+                    location: null
+                };
+                editingExpenseId.value = null;
             };
-            const removeExpense = (idx) => expenses.value.splice(idx, 1);
+
+            // Get Location Function
+            const getCurrentLocation = () => {
+                if (!navigator.geolocation) {
+                    alert('您的瀏覽器不支援定位功能');
+                    return;
+                }
+                isLocating.value = true;
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        expenseForm.value.location = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
+                        };
+                        isLocating.value = false;
+                    },
+                    (error) => {
+                        console.error(error);
+                        alert('無法取得定位，請確認已授權');
+                        isLocating.value = false;
+                    }
+                );
+            };
+
+            const addOrUpdateExpense = () => {
+                if(!expenseForm.value.item || !expenseForm.value.amount) return;
+                
+                const expData = {
+                    item: expenseForm.value.item,
+                    amount: parseFloat(expenseForm.value.amount),
+                    image: expenseForm.value.image,
+                    datetime: expenseForm.value.datetime, // ISO String
+                    location: expenseForm.value.location,
+                    // Helper display string for day
+                    dateStr: new Date(expenseForm.value.datetime).getDate() + '/' + (new Date(expenseForm.value.datetime).getMonth() + 1),
+                    date: new Date().toLocaleDateString() // Keep for legacy compat
+                };
+
+                if (editingExpenseId.value) {
+                    // Update
+                    const idx = expenses.value.findIndex(e => e.id === editingExpenseId.value);
+                    if (idx !== -1) {
+                        expenses.value[idx] = { ...expenses.value[idx], ...expData };
+                    }
+                } else {
+                    // Add
+                    expenses.value.unshift({
+                        id: Date.now(),
+                        ...expData
+                    });
+                }
+                
+                initExpenseForm(); // Reset
+            };
+
+            const startEditExpense = (item) => {
+                editingExpenseId.value = item.id;
+                expenseForm.value = {
+                    item: item.item,
+                    amount: item.amount,
+                    image: item.image,
+                    datetime: item.datetime || new Date().toISOString().slice(0, 16), // Fallback if old data missing time
+                    location: item.location
+                };
+            };
+
+            const cancelEditExpense = () => {
+                initExpenseForm();
+            };
+
+            const deleteExpense = (id) => {
+                if(confirm('確定刪除此筆消費？')) {
+                    expenses.value = expenses.value.filter(e => e.id !== id);
+                    if(editingExpenseId.value === id) cancelEditExpense();
+                }
+            };
+
+            // Formatting helper
+            const formatTime = (isoString) => {
+                if(!isoString) return '';
+                const d = new Date(isoString);
+                return `${d.getMonth()+1}/${d.getDate()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+            };
+
+            const removeExpense = (idx) => expenses.value.splice(idx, 1); // Legacy delete hook
+            const addExpense = () => {}; // Legacy add hook blocked by new UI
+
             const totalExpenseHKD = computed(() => (expenses.value.reduce((a, b) => a + b.amount, 0) * exchangeRate.value).toFixed(1));
 
             // --- 地圖 ---
@@ -564,9 +641,11 @@
                 if(mapSearchInput.value.trim() !== '') mapQuery.value = mapSearchInput.value;
             };
 
-            // --- 初始化 & 儲存 (V19 - 使用 v19 key) ---
+            // --- 初始化 & 儲存 (V20) ---
             onMounted(async () => {
-                const currentVer = 'v19';
+                initExpenseForm(); // Init Wallet form
+                
+                const currentVer = 'v20';
                 const savedVer = localStorage.getItem('app_version');
 
                 if (savedVer !== currentVer) {
@@ -588,7 +667,8 @@
                     if(savedCheck) checklist.value = JSON.parse(savedCheck);
                 }
                 
-                const savedExp = localStorage.getItem('tp_exp_' + currentVer);
+                // Migrate expenses to new version key safely
+                const savedExp = localStorage.getItem('tp_exp_' + currentVer) || localStorage.getItem('tp_exp_v19');
                 if(savedExp) expenses.value = JSON.parse(savedExp);
                 
                 const savedRate = localStorage.getItem('tp_rate');
@@ -604,7 +684,7 @@
                 } catch(e) { console.log(e); }
             });
 
-            const ver = 'v19';
+            const ver = 'v20';
             watch(daysConfig, v => localStorage.setItem('tp_days_' + ver, JSON.stringify(v)), { deep: true });
             watch(itinerary, v => localStorage.setItem('tp_itin_' + ver, JSON.stringify(v)), { deep: true });
             watch(expenses, v => localStorage.setItem('tp_exp_' + ver, JSON.stringify(v)), { deep: true });
@@ -620,7 +700,9 @@
             return {
                 activeTab, currentDay, daysConfig, currentDayData, getDateStr,
                 itinerary, filteredItinerary, addNewItem, deleteItem, startEdit, saveEdit, cancelEdit, openMap, editingId, editForm,
-                expenses, newExpense, addExpense, removeExpense, totalExpenseHKD, exchangeRate,
+                expenses, expenseForm, isLocating, editingExpenseId,
+                getCurrentLocation, addOrUpdateExpense, startEditExpense, cancelEditExpense, deleteExpense, formatTime,
+                removeExpense, addExpense, totalExpenseHKD, exchangeRate,
                 weather, mapUrl, mapSearchInput, triggerMapSearch, handleImageUpload,
                 checklist, checklistProgress, toggleCheck, resetChecklist
             };
